@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: admin_dashboard.php");
                 exit();
             } else {
-                header("Location: dashboard.php"); // Non-admin redirect
+                header("Location: user_dashboard.php"); // Non-admin redirect
                 exit();
             }
         } else {
