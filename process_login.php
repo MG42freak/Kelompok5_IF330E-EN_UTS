@@ -27,4 +27,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Both email and password are required.";
     }
 }
-?>

@@ -36,4 +36,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['event_id'])) {
 } else {
     header("Location: user_dashboard.php");
 }
-?>

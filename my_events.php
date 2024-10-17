@@ -19,4 +19,3 @@ $sql = "SELECT e.id, e.name, e.date, e.time, e.location, r.registration_date
 $result = $conn->query($sql);
 
 $conn->close();
-?>
