@@ -43,4 +43,3 @@ if (isset($_GET['id'])) {
     header("Location: admin_dashboard_bg.php");
     exit();
 }
-?>
