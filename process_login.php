@@ -13,7 +13,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (login_user($email, $password)) {
             header("Location: dashboard.php");
             exit();
-        } else {
+        }
+        elseif ((!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true)) {
+            header("Location: admin_dashboard.php");
+            exit();
+        }
+        else {
             echo "Invalid email or password. Please try again.";
         }
     } else {
