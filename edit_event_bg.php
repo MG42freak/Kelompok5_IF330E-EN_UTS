@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             description='$description', max_participants=$max_participants, status='$status' WHERE id=$id";
     
     if ($conn->query($sql) === TRUE) {
-        header("Location: admin_dashboard_bg.php");
+        header("Location: admin_dashboard.php");
         exit();
     } else {
         echo "Error updating record: " . $conn->error;

@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
         
-        header("Location: admin_dashboard_bg.php");
+        header("Location: admin_dashboard.php");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

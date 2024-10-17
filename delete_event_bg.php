@@ -22,7 +22,7 @@ if (isset($_GET['id'])) {
     
     $conn->close();
 } else {
-    header("Location: admin_dashboard_bg.php");
+    header("Location: admin_dashboard.php");
 }
 ?>
 
