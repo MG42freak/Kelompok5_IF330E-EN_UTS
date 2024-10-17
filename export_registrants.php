@@ -4,12 +4,6 @@ session_start();
 require_once 'config.php';
 require_once 'functions.php';
 
-// Check if user is admin
-if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-    header("Location: login.php");
-    exit();
-}
-
 // Check if the event ID is provided
 if (isset($_GET['id'])) {
     $conn = db_connect();
