@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: dashboard.php");
             exit();
         }
-        elseif ((!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true)) {
+        elseif ((isset($_SESSION['is_admin']) || $_SESSION['is_admin'] == true)) {
             header("Location: admin_dashboard.php");
             exit();
         }

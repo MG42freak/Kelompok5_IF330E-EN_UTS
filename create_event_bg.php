@@ -4,6 +4,11 @@ session_start();
 require_once 'config.php';
 require_once 'functions.php';
 
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    header("Location: login.php");
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn = db_connect();
     
