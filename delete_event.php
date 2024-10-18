@@ -1,27 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Registrants</title>
-</head>
-<body>
-    <h1>View Registrants</h1>
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Registration Date</th>
-        </tr>
-        <?php while ($row = $result->fetch_assoc()): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($row['name']); ?></td>
-            <td><?php echo htmlspecialchars($row['email']); ?></td>
-            <td><?php echo $row['registration_date']; ?></td>
-        </tr>
-        <?php endwhile; ?>
-    </table>
-    <p><a href="admin_dashboard.php">Back to Dashboard</a></p>
-    <p><a href="export_registrants.php?id=<?php echo $event_id; ?>">Export to CSV</a></p>
-</body>
-</html>
+<?php
+// delete_event.php
+session_start();
+require_once 'config.php';
+require_once 'functions.php';
+
+// Ensure user is admin
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    header("Location: login.php");
+    exit();
+}
+
+// Check if 'id' parameter exists
+if (isset($_GET['id'])) {
+    $conn = db_connect();
+    $id = intval($_GET['id']); // Event ID to delete
+    
+    // Step 1: Delete related registrations for the event
+    $sql = "DELETE FROM registrations WHERE event_id = $id";
+    $conn->query($sql);
+    
+    // Step 2: Delete the event itself
+    $sql = "DELETE FROM events WHERE id = $id";
+    
+    if ($conn->query($sql) === TRUE) {
+        // On success, redirect back to the events list
+        header("Location: view_events.php?message=Event+deleted+successfully");
+        exit();
+    } else {
+        echo "Error deleting event: " . $conn->error;
+    }
+    
+    $conn->close();
+} else {
+    // If 'id' is not provided, redirect back to dashboard
+    header("Location: admin_dashboard.php");
+}
+?>

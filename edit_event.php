@@ -3,36 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Registrants</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Edit Event</title>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">View Registrants</h1>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Registration Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($row['name']); ?></td>
-                    <td><?php echo htmlspecialchars($row['email']); ?></td>
-                    <td><?php echo $row['registration_date']; ?></td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-        <div class="mt-3">
-            <a href="admin_dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
-            <a href="export_registrants.php?id=<?php echo $event_id; ?>" class="btn btn-primary">Export to CSV</a>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <h1>Edit Event</h1>
+    <form action="edit_event_bg.php" method="post">
+        <input type="hidden" name="id" value="<?php echo $event['id']; ?>">
+        
+        <label for="name">Event Name:</label>
+        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($event['name']); ?>" required><br>
+        
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" value="<?php echo $event['date']; ?>" required><br>
+        
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" value="<?php echo $event['time']; ?>" required><br>
+        
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" value="<?php echo htmlspecialchars($event['location']); ?>" required><br>
+        
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required><?php echo htmlspecialchars($event['description']); ?></textarea><br>
+        
+        <label for="max_participants">Maximum Participants:</label>
+        <input type="number" id="max_participants" name="max_participants" value="<?php echo $event['max_participants']; ?>" required><br>
+        
+        <label for="status">Status:</label>
+        <select id="status" name="status">
+            <option value="open" <?php echo $event['status'] == 'open' ? 'selected' : ''; ?>>Open</option>
+            <option value="closed" <?php echo $event['status'] == 'closed' ? 'selected' : ''; ?>>Closed</option>
+            <option value="canceled" <?php echo $event['status'] == 'canceled' ? 'selected' : ''; ?>>Canceled</option>
+        </select><br>
+        
+        <input type="submit" value="Update Event">
+    </form>
+    <p><a href="admin_dashboard.php">Back to Dashboard</a></p>
 </body>
 </html>
