@@ -44,7 +44,6 @@
         </table>
         <p>
             <a href="create_event.php" class="btn btn-primary">Create New Event</a>
-            <a href="user_management.php" class="btn btn-secondary">User Management</a>
             <a href="logout.php" class="btn btn-danger">Logout</a>
         </p>
     </div>
