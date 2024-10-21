@@ -1,3 +1,41 @@
+<?php
+// admin_dashboard.php
+session_start();
+require_once 'config.php';
+require_once 'functions.php';
+
+// Check if user is admin
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    header("Location: login.php");
+    exit();
+}
+
+$conn = db_connect();
+
+// Fetch available events
+$sql = "SELECT id, name, date, time, location, max_participants, status FROM events";
+$result = $conn->query($sql);
+
+if (!$result) {
+    die("Error fetching events: " . $conn->error);
+}
+
+// Fetch number of registrants per event
+$sql_registrants = "SELECT event_id, COUNT(*) as count FROM registrations GROUP BY event_id";
+$result_registrants = $conn->query($sql_registrants);
+
+if (!$result_registrants) {
+    die("Error fetching registrants: " . $conn->error);
+}
+
+$registrants = array();
+while ($row = $result_registrants->fetch_assoc()) {
+    $registrants[$row['event_id']] = $row['count'];
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,12 +65,12 @@
                 <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($row['name']); ?></td>
-                    <td><?php echo $row['date']; ?></td>
-                    <td><?php echo $row['time']; ?></td>
+                    <td><?php echo htmlspecialchars($row['date']); ?></td>
+                    <td><?php echo htmlspecialchars($row['time']); ?></td>
                     <td><?php echo htmlspecialchars($row['location']); ?></td>
-                    <td><?php echo $row['max_participants']; ?></td>
-                    <td><?php echo $row['status']; ?></td>
-                    <td><?php echo isset($registrants[$row['id']]) ? $registrants[$row['id']] : 0; ?></td>
+                    <td><?php echo htmlspecialchars($row['max_participants']); ?></td>
+                    <td><?php echo htmlspecialchars($row['status']); ?></td>
+                    <td><?php echo isset($registrants[$row['id']]) ? htmlspecialchars($registrants[$row['id']]) : 0; ?></td>
                     <td>
                         <a href="edit_event.php?id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                         <a href="delete_event.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a>
